@@ -1,0 +1,28 @@
+version: '3.1'
+
+services:
+  portainer:
+    image: syncthing/syncthing
+    restart: unless-stopped
+    container_name: syncthing
+    volumes:
+      - /mnt/storage1/docker-persist/syncthing:/var/syncthing/config
+      - /mnt/storage1:/var/syncthing/Sync
+    networks:
+      - reverse-proxy
+    environment:
+      - VIRTUAL_HOST=syncthing.local
+      - VIRTUAL_PORT=8384
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London 
+    ports:
+      - 8384:8384
+      - 22000:22000
+      - 21027:21027/udp
+
+networks:
+  reverse-proxy:
+    external:
+      name: reverse-proxy
+

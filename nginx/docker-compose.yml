@@ -1,0 +1,22 @@
+version: '3.1'
+
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy:alpine
+    restart: unless-stopped
+    container_name: nginx-proxy
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - /mnt/storage1/docker-persist/nginx-proxy/certs:/etc/nginx/certs
+      - /mnt/storage1/docker-persist/nginx-proxy/dhparam:/etc/nginx/dhparam
+      - /mnt/storage1/docker-persist/nginx-proxy/vhost.d:/etc/nginx/vhost.d
+    networks:
+      - reverse-proxy
+
+networks:
+  reverse-proxy:
+    external:
+      name: reverse-proxy
