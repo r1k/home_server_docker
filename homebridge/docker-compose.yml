@@ -1,0 +1,20 @@
+version: '3.1'
+
+services:
+  portainer:
+    image: oznu/homebridge
+    restart: unless-stopped
+    container_name: homebridge
+    volumes:
+      - /mnt/storage1/docker-persist/homebridge:/homebridge
+    network_mode: host
+    environment:
+      - VIRTUAL_HOST=portainer.local
+      - VIRTUAL_PORT=8081
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - PACKAGES=ffmpeg/openssh
+      - HOMEBRIDGE_CONFIG_UI=1
+      - HOMEBRIDGE_CONFIG_UI_PORT=8081
+
