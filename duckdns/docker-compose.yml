@@ -1,0 +1,26 @@
+version: '3.1'
+
+services:
+  portainer:
+    image: linuxserver/duckdns
+    restart: unless-stopped
+    container_name: duckdns
+    networks:
+      - reverse-proxy
+    volumes:
+      - /mnt/storage1/docker-persist/duckdns/config:/config
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - SUBDOMAINS=r1k
+      - TOKEN=${TOKEN}
+      - LOG_FILE=false
+    ports:
+      - 1935:1935
+
+networks:
+  reverse-proxy:
+    external:
+      name: reverse-proxy
+
