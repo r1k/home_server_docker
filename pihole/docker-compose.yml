@@ -5,22 +5,40 @@ services:
     image: pihole/pihole:latest
     container_name: pihole
     restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
     volumes:
-      - /mnt/storage1/docker-persist/pihole/:/etc/pihole/
-      - /mnt/storage1/docker-persist/pihole/dnsmasq.d/:/etc/dnsmasq.d/
+      - /mnt/storage1/docker-persist/pi-hole/:/etc/pihole/
+      - /mnt/storage1/docker-persist/pi-hole/dnsmasq.d/:/etc/dnsmasq.d/
     ports:
-      - '53:53/tcp'
-      - '53:53/udp'
+      - 53:53/tcp
+      - 53:53/udp 
     environment:
-      - ServerIP=192.168.221.11
-      - PROXY_LOCATION=pihole
-      - VIRTUAL_HOST=pi-hole.local,pi.hole
+      - ServerIP=192.168.221.1
+      - VIRTUAL_HOST=pi-hole.local,pi-hole
+      - DNSMASQ_LISTENING=all
       - TZ=Europe/London
-      - WEBPASSWORD=mypassword
+      - WEBPASSWORD=get_your_own_password
     networks:
-      - reverse-proxy
+      backend:
+        ipv4_address: '172.31.0.100'
+      reverse-proxy: {}
+    depends_on:
+      - dhcphelper
+
+  dhcphelper:
+    build: ./dhcp-helper
+    restart: unless-stopped
+    network_mode: "host"
+    command: -s 172.31.0.100
+    cap_add:
+      - NET_ADMIN
 
 networks:
+  backend:
+    ipam:
+      config:
+        - subnet: 172.31.0.0/16
   reverse-proxy:
     external:
       name: reverse-proxy
