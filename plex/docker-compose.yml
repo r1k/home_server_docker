@@ -1,12 +1,12 @@
 version: '3.1'
 
 services:
-  portainer:
+  plex:
     image: plexinc/pms-docker
     restart: unless-stopped
     container_name: plex
     volumes:
-      - /mnt/storage1/docker-persist/plex:/config
+      - /mnt/storage1/docker-persist/plex_library:/config
       - /mnt/storage1:/data
     networks:
       - reverse-proxy

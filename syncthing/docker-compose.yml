@@ -1,7 +1,7 @@
 version: '3.1'
 
 services:
-  portainer:
+  syncthing:
     image: syncthing/syncthing
     restart: unless-stopped
     container_name: syncthing

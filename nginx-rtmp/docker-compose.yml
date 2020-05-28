@@ -1,7 +1,7 @@
 version: '3.1'
 
 services:
-  portainer:
+  nginx-rtmp:
     image: tiangolo/nginx-rtmp
     restart: unless-stopped
     container_name: nginx-rtmp
