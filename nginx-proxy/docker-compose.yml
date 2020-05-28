@@ -6,8 +6,8 @@ services:
     restart: unless-stopped
     container_name: nginx-proxy
     ports:
-      - '80:80'
-      - '443:443'
+      - 80:80
+      - 443:443
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - /mnt/storage1/docker-persist/nginx-proxy/certs:/etc/nginx/certs
