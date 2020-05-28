@@ -5,8 +5,6 @@ services:
     image: linuxserver/duckdns
     restart: unless-stopped
     container_name: duckdns
-    networks:
-      - reverse-proxy
     volumes:
       - /mnt/storage1/docker-persist/duckdns/config:/config
     environment:
@@ -16,11 +14,3 @@ services:
       - SUBDOMAINS=r1k
       - TOKEN=${TOKEN}
       - LOG_FILE=false
-    ports:
-      - 1935:1935
-
-networks:
-  reverse-proxy:
-    external:
-      name: reverse-proxy
-

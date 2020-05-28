@@ -9,7 +9,7 @@ services:
       - /mnt/storage1/docker-persist/homebridge:/homebridge
     network_mode: host
     environment:
-      - VIRTUAL_HOST=portainer.local
+      - VIRTUAL_HOST=homebridge.local,homebridge
       - VIRTUAL_PORT=8081
       - PUID=1000
       - PGID=1000

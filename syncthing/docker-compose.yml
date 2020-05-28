@@ -11,7 +11,7 @@ services:
     networks:
       - reverse-proxy
     environment:
-      - VIRTUAL_HOST=syncthing.local
+      - VIRTUAL_HOST=syncthing.local,syncthing
       - VIRTUAL_PORT=8384
       - PUID=1000
       - PGID=1000

@@ -5,17 +5,9 @@ services:
     image: tiangolo/nginx-rtmp
     restart: unless-stopped
     container_name: nginx-rtmp
-    networks:
-      - reverse-proxy
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/London
     ports:
       - 1935:1935
-
-networks:
-  reverse-proxy:
-    external:
-      name: reverse-proxy
-
