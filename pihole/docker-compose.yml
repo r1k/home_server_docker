@@ -17,7 +17,7 @@ services:
       - VIRTUAL_HOST=pi-hole.wainwright.lan,pi-hole
       - DNSMASQ_LISTENING=all
       - TZ=Europe/London
-      - WEBPASSWORD=get_your_own_password      
+      - WEBPASSWORD=${PASSWORD}    
       - DNS1='172.31.0.67#5053'
       - DNS2=''
       - IPv6=false
