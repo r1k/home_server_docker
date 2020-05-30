@@ -18,15 +18,28 @@ services:
       - DNSMASQ_LISTENING=all
       - TZ=Europe/London
       - WEBPASSWORD=get_your_own_password
-      dns:
-        - 127.0.0.1
-        - 1.1.1.1
+      - DNS1='10.0.0.2#5053'
+      - DNS2=''
+      - IPv6=false
     networks:
       backend:
         ipv4_address: '172.31.0.100'
       reverse-proxy: {}
+      pihole_net:
+        ipv4_address: 10.0.0.3
     depends_on:
       - dhcphelper
+      - cloudflared
+
+  cloudflared:
+    container_name: cloudflared
+    build:
+      context: ./DoHttps
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    networks:
+      pihole_net:
+        ipv4_address: 10.0.0.2
 
   dhcphelper:
     build: ./dhcp-helper
@@ -41,6 +54,11 @@ networks:
     ipam:
       config:
         - subnet: 172.31.0.0/16
+  pihole_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.0.0/29
   reverse-proxy:
     external:
       name: reverse-proxy
