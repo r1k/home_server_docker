@@ -17,19 +17,18 @@ services:
       - VIRTUAL_HOST=pi-hole.wainwright.lan,pi-hole
       - DNSMASQ_LISTENING=all
       - TZ=Europe/London
-      - WEBPASSWORD=get_your_own_password
-      - DNS1='10.0.0.2#5053'
+      - WEBPASSWORD=get_your_own_password      
+      - DNS1='172.31.0.67#5053'
       - DNS2=''
       - IPv6=false
     networks:
-      backend:
-        ipv4_address: '172.31.0.100'
+      dhcp_relay:
+        ipv4_address: '172.31.0.2'
       reverse-proxy: {}
-      pihole_net:
-        ipv4_address: 10.0.0.3
+      cloudflared_net:
+        ipv4_address: '172.31.0.66'
     depends_on:
       - dhcphelper
-      - cloudflared
 
   cloudflared:
     container_name: cloudflared
@@ -38,27 +37,27 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     networks:
-      pihole_net:
-        ipv4_address: 10.0.0.2
+      cloudflared_net:
+        ipv4_address: '172.31.0.67'
 
   dhcphelper:
     build: ./dhcp-helper
     restart: unless-stopped
     network_mode: "host"
-    command: -s 172.31.0.100
+    command: -s 172.31.0.2
     cap_add:
       - NET_ADMIN
 
 networks:
-  backend:
+  dhcp_relay:
     ipam:
       config:
-        - subnet: 172.31.0.0/16
-  pihole_net:
+        - subnet: 172.31.0.0/29
+  cloudflared_net:
     driver: bridge
     ipam:
-      config:
-        - subnet: 10.0.0.0/29
+     config:
+       - subnet: 172.31.0.64/29        
   reverse-proxy:
     external:
       name: reverse-proxy

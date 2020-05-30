@@ -5,6 +5,7 @@ services:
     image: tiangolo/nginx-rtmp
     restart: unless-stopped
     container_name: nginx-rtmp
+    network_mode: bridge
     environment:
       - PUID=1000
       - PGID=1000

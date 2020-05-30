@@ -5,6 +5,7 @@ services:
     image: linuxserver/duckdns
     restart: unless-stopped
     container_name: duckdns
+    network_mode: bridge
     volumes:
       - /mnt/storage1/docker-persist/duckdns/config:/config
     environment:
