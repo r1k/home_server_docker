@@ -14,11 +14,13 @@ services:
       - 53:53/tcp
       - 53:53/udp 
     environment:
-      - ServerIP=192.168.221.1
-      - VIRTUAL_HOST=pi-hole.local,pi-hole
+      - VIRTUAL_HOST=pi-hole.wainwright.lan,pi-hole
       - DNSMASQ_LISTENING=all
       - TZ=Europe/London
       - WEBPASSWORD=get_your_own_password
+      dns:
+        - 127.0.0.1
+        - 1.1.1.1
     networks:
       backend:
         ipv4_address: '172.31.0.100'

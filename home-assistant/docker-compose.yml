@@ -1,0 +1,11 @@
+version: '3.1'
+services:
+  homeassistant:
+    image: homeassistant/home-assistant:stable
+    container_name: home-assistant
+    volumes:
+      - /mnt/storage1/docker-persist/home-assistant:/config
+    environment:
+      - TZ=Europe/London
+    restart: unless-stopped
+    network_mode: host

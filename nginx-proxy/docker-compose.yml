@@ -15,6 +15,8 @@ services:
       - /mnt/storage1/docker-persist/nginx-proxy/vhost.d:/etc/nginx/vhost.d
     networks:
       - reverse-proxy
+      environment:
+        DEFAULT_HOST: pihole.wainwright.lan
 
 networks:
   reverse-proxy:

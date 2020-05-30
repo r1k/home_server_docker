@@ -11,7 +11,7 @@ services:
     networks:
       - reverse-proxy
     environment:
-      - VIRTUAL_HOST=plex.local,plex
+      - VIRTUAL_HOST=plex.wainwright.lan,plex
       - VIRTUAL_PORT=32400
       - TZ="Europe/London"
       - ADVERTISE_IP="http://192.168.221.11:32400/"
