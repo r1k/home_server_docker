@@ -1,0 +1,22 @@
+version: '3.1'
+
+services:
+  glances:
+    image: nicolargo/glances:latest-alpine
+    restart: unless-stopped
+    container_name: glances
+    pid: host
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - reverse-proxy
+    environment:
+      - VIRTUAL_HOST=glances.wainwright.lan,glances
+      - VIRTUAL_PORT=61208
+      - "GLANCES_OPT=-w"
+
+networks:
+  reverse-proxy:
+    external:
+      name: reverse-proxy
+
