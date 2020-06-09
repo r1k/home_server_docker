@@ -1,0 +1,54 @@
+version: '2.1'
+services:
+  commafeed:
+    image: agross/commafeed:latest
+    volumes:
+      - /mnt/storage1/docker-persist/commafeed/config/commafeed.yml:/config/config.yml
+    networks:
+      commafeed-net:
+        ipv4_address: '172.31.0.131'
+      reverse-proxy: {}
+    environment:
+      - VIRTUAL_HOST=commafeed.wainwright.lan,commafeed
+      - VIRTUAL_PORT=8082,8084
+    depends_on:
+      redis:
+        condition: service_healthy
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: "curl http://localhost:8082"
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    networks:
+      commafeed-net:
+        ipv4_address: '172.31.0.132'
+    healthcheck:
+      test: "redis-cli ping"
+
+  db:
+    image: postgres:9.6.2-alpine
+    ports:
+      - "5432:5432"
+    networks:
+      commafeed-net:
+        ipv4_address: '172.31.0.130'
+    environment:
+      - POSTGRES_PASSWORD=sa
+      - POSTGRES_USER=sa
+      - POSTGRES_DB=commafeed
+    healthcheck:
+      test: "nc -z localhost 5432"
+
+networks:
+  commafeed-net:
+    ipam:
+      config:
+        - subnet: 172.31.0.128/29
+  reverse-proxy:
+    external:
+      name: reverse-proxy
+
