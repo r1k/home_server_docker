@@ -13,7 +13,7 @@ services:
     environment:
       - VIRTUAL_HOST=glances.wainwright.lan,glances
       - VIRTUAL_PORT=61208
-      - "GLANCES_OPT=-w"
+      - GLANCES_OPT=-w
 
 networks:
   reverse-proxy:

@@ -18,8 +18,8 @@ services:
       - DNSMASQ_LISTENING=all
       - TZ=Europe/London
       - WEBPASSWORD=${PASSWORD}    
-      - DNS1='172.31.0.67#5053'
-      - DNS2=''
+      - DNS1=172.31.0.67#5053
+      - DNS2=
       - IPv6=false
     networks:
       dhcp_relay:
