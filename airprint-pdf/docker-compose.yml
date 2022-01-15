@@ -1,0 +1,20 @@
+version: '3.1'
+
+services:
+  airprint-pdf:
+    build: ./aircups
+    restart: unless-stopped
+    container_name: airprint-pdf
+    network_mode: bridge
+    volumes:
+      - /mnt/storage1/docker-persist/airprint-pdf/config:/config
+      - /etc/avahi/services:/services
+      - /mnt/storage1/Print:/var/spool/cups-pdf
+    ports:
+      - 631:631
+    environment:
+      - VIRTUAL_HOST=cupsd.wainwright.lan,cupsd
+      - VIRTUAL_PORT=631
+      - CUPSADMIN=print
+      - CUPSPASSWORD=print
+

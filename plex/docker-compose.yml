@@ -4,16 +4,23 @@ services:
   plex:
     image: plexinc/pms-docker
     restart: unless-stopped
-    network_mode: host
+      #    network_mode: host
     container_name: plex
     volumes:
       - /mnt/storage1/docker-persist/plex_library:/config
       - /mnt/storage1/Media:/data
     environment:
-#      - VIRTUAL_HOST=plex.wainwright.lan,plex
-#      - VIRTUAL_PORT=32400
+      - VIRTUAL_HOST=plex.wainwright.lan,plex
+      - VIRTUAL_PORT=32400
       - TZ="Europe/London"
-      - ADVERTISE_IP="http://192.168.221.1:32400/"
+      - ADVERTISE_IP="http://192.168.221.15:32400/"
       - PLEX_UID=`id -u`
       - PLEX_GID=`id -g`
+    networks:
+      macvlan_net:
+        ipv4_address: 192.168.221.15
 
+
+networks:
+  macvlan_net:
+    external: true
