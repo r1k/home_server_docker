@@ -2,7 +2,7 @@ version: '3.1'
 
 services:
   glances:
-    image: nicolargo/glances:latest-alpine
+    image: nicolargo/glances:latest
     restart: unless-stopped
     container_name: glances
     pid: host
@@ -10,8 +10,14 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - reverse-proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.glances.rule=Host(`piglances.wainwright.lan`)"
+      - "traefik.http.routers.glances.entrypoints=web"
+      - "traefik.http.services.glances.loadbalancer.server.port=61208"
+      - "traefik.http.routers.glances.service=glances"
     environment:
-      - VIRTUAL_HOST=glances.wainwright.lan,glances
+      - VIRTUAL_HOST=piglances.wainwright.lan,piglances
       - VIRTUAL_PORT=61208
       - GLANCES_OPT=-w
 
