@@ -2,19 +2,25 @@ version: '3.1'
 
 services:
   homebridge:
-    image: oznu/homebridge
+    image: oznu/homebridge:ubuntu
     restart: unless-stopped
     container_name: homebridge
     volumes:
-      - /mnt/storage1/docker-persist/homebridge:/homebridge
+      - /opt/docker-persist/homebridge:/homebridge
     network_mode: host
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.homebridge.rule=Host(`homebridge.wainwright.lan`)"
+      - "traefik.http.routers.homebridge.entrypoints=web"
+      - "traefik.http.services.homebridge.loadbalancer.server.port=8581"
+      - "traefik.http.routers.homebridge.service=homebridge"
     environment:
       - VIRTUAL_HOST=homebridge.wainwright.lan,homebridge
-      - VIRTUAL_PORT=8081
+      - VIRTUAL_PORT=8581
       - PUID=1000
       - PGID=1000
       - TZ=Europe/London
       - PACKAGES=ffmpeg/openssh
       - HOMEBRIDGE_CONFIG_UI=1
-      - HOMEBRIDGE_CONFIG_UI_PORT=8081
+      - HOMEBRIDGE_CONFIG_UI_PORT=8581
 
