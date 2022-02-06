@@ -8,17 +8,11 @@ services:
     volumes:
       - /opt/docker-persist/homebridge:/homebridge
     network_mode: host
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.homebridge.rule=Host(`homebridge.wainwright.lan`)"
-      - "traefik.http.routers.homebridge.entrypoints=web"
-      - "traefik.http.services.homebridge.loadbalancer.server.port=8581"
-      - "traefik.http.routers.homebridge.service=homebridge"
     environment:
       - VIRTUAL_HOST=homebridge.wainwright.lan,homebridge
       - VIRTUAL_PORT=8581
-      - PUID=1000
-      - PGID=1000
+      - PUID=1001
+      - PGID=1001
       - TZ=Europe/London
       - PACKAGES=ffmpeg/openssh
       - HOMEBRIDGE_CONFIG_UI=1
