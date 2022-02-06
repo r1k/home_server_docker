@@ -5,14 +5,12 @@ services:
     image: pihole/pihole:latest
     container_name: pihole
     restart: unless-stopped
+    network_mode: host
     cap_add:
       - NET_ADMIN
     volumes:
       - /opt/docker-persist/pi-hole/:/etc/pihole/
       - /opt/docker-persist/pi-hole/dnsmasq.d/:/etc/dnsmasq.d/
-    ports:
-      - 53:53/tcp
-      - 53:53/udp 
     environment:
       - VIRTUAL_HOST=pihole.wainwright.lan,pihole
       - DNSMASQ_LISTENING=all
@@ -22,15 +20,3 @@ services:
       - PIHOLE_DOMAIN=wainwright.lan
       - IPv6=false
       - ServerIP=192.168.221.1
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.pihole.rule=Host(`pihole.wainwright.lan`)"
-      - "traefik.http.services.pihole.loadbalancer.server.port=80"
-      - "traefik.http.routers.pihole.entrypoints=web"
-    networks:
-      reverse-proxy: {}
-
-networks:
-  reverse-proxy:
-    external:
-      name: reverse-proxy
