@@ -11,8 +11,8 @@ services:
     environment:
       - VIRTUAL_HOST=homebridge.wainwright.lan,homebridge
       - VIRTUAL_PORT=8581
-      - PUID=1001
-      - PGID=1001
+      - PUID=`id -u`
+      - PGID=`id -g`
       - TZ=Europe/London
       - PACKAGES=ffmpeg/openssh
       - HOMEBRIDGE_CONFIG_UI=1
