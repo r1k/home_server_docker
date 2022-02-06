@@ -13,14 +13,15 @@ services:
     ports:
       - 53:53/tcp
       - 53:53/udp 
-      - 67:67/udp
     environment:
+      - VIRTUAL_HOST=pihole.wainwright.lan,pihole
       - DNSMASQ_LISTENING=all
       - TZ=Europe/London
       - WEBPASSWORD=${WEBPASSWD}    
       - PIHOLE_DNS_=1.1.1.1
       - PIHOLE_DOMAIN=wainwright.lan
       - IPv6=false
+      - ServerIP=192.168.221.1
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.pihole.rule=Host(`pihole.wainwright.lan`)"
