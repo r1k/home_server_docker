@@ -8,20 +8,8 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /opt/docker-persist/portainer-ce:/data
-    networks:
-      - reverse-proxy
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.portainer.rule=Host(`portainer.wainwright.lan`)"
-      - "traefik.http.routers.portainer.entrypoints=web"
-      - "traefik.http.services.portainer.loadbalancer.server.port=9000"
-      - "traefik.http.routers.portainer.service=portainer"
+    ports:
+      - 9000:9000/tcp
     environment:
       - VIRTUAL_HOST=portainer.wainwright.lan,portainer
       - VIRTUAL_PORT=9000    
-
-networks:
-  reverse-proxy:
-    external:
-      name: reverse-proxy
-
