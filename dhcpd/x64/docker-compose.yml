@@ -1,0 +1,53 @@
+version: '3.3'
+
+services:
+  dhcpd:
+    build: 
+      context: ./dhcpd
+      dockerfile: Dockerfile
+      network: host
+    image: dhcpd:latest
+    environment: 
+      - INTERFACE=enxb827eb723e4d
+    restart: unless-stopped
+    container_name: dhcpd
+    volumes:
+      - /opt/docker-persist/dhcpd/dhcpd:/opt/dhcp
+      - /opt/docker-persist/dhcpd/var/lib/dhcp:/var/lib/dhcp
+      - /opt/docker-persist/dhcpd/var/log/dhcp.log:/var/log/dhcp.log
+    network_mode: host
+
+#  glass:
+#    build:
+#      context: ./glass
+#      dockerfile: Dockerfile
+#    image: glass:latest
+#    container_name: glass
+#    restart: unless-stopped
+#    working_dir: /opt/glass
+#    environment:
+#      - NODE_ENV=production
+#    networks:
+#      - reverse-proxy
+#    labels:
+#      - "traefik.enable=true"
+#      - "traefik.http.routers.dhcpd.rule=Host(`dhcpd.wainwright.lan`)"
+#      - "traefik.http.routers.dhcpd.entrypoints=web"
+#      - "traefik.http.services.dhcpd.loadbalancer.server.port=3000"
+#      - "traefik.http.routers.dhcpd.service=dhcpd"
+#      - "traefik.http.routers.glass.rule=Host(`dhcpd.wainwright.lan`)"
+#      - "traefik.http.routers.glass.entrypoints=ws"
+#      - "traefik.http.services.glass.loadbalancer.server.port=8081"
+#      - "traefik.http.routers.glass.service=glass"
+#    volumes:
+#      - /opt/docker-persist/dhcpd/dhcpd:/opt/dhcp
+#      - /opt/docker-persist/dhcpd/var/lib/dhcp/dhcpd.lease:/var/lib/dhcp/dhcpd.lease
+#      - /opt/docker-persist/dhcpd/var/log/dhcp.log:/var/log/dhcp.log
+#      - /opt/docker-persist/dhcpd/glass:/opt/glass/config
+#    depends_on: 
+#      - dhcpd
+
+#networks:
+#  reverse-proxy:
+#    external:
+#      name: reverse-proxy

@@ -1,0 +1,22 @@
+version: '3.1'
+
+services:
+  pihole:
+    image: pihole/pihole:latest
+    container_name: pihole
+    restart: unless-stopped
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - /opt/docker-persist/pi-hole/:/etc/pihole/
+      - /opt/docker-persist/pi-hole/dnsmasq.d/:/etc/dnsmasq.d/
+    environment:
+      - VIRTUAL_HOST=pihole.wainwright.lan,pihole
+      - DNSMASQ_LISTENING=all
+      - TZ=Europe/London
+      - WEBPASSWORD=${WEBPASSWD}    
+      - PIHOLE_DNS_=1.1.1.1
+      - PIHOLE_DOMAIN=wainwright.lan
+      - IPv6=false
+      - ServerIP=192.168.221.1

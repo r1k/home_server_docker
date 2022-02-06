@@ -13,8 +13,8 @@ services:
     environment:
       - VIRTUAL_HOST=syncthing.wainwright.lan,syncthing
       - VIRTUAL_PORT=8384
-      - PUID=1000
-      - PGID=1000
+      - PUID=`id -u`
+      - PGID=`id -g`
       - TZ=Europe/London 
     ports:
       - 8384:8384

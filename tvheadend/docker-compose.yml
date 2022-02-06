@@ -12,8 +12,8 @@ services:
     environment:
       - VIRTUAL_HOST=tvheadend.wainwright.lan,tvheadend
       - VIRTUAL_PORT=61208
-      - PUID=1000
-      - PGID=1000
+      - PUID=`id -u`
+      - PGID=`id -g`
       - TZ=Europe/London
     ports:
       - 9981:9981

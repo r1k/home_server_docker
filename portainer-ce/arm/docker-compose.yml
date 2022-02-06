@@ -7,15 +7,9 @@ services:
     container_name: portainer
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /mnt/storage1/docker-persist/portainer-ce:/data
-    networks:
-      - reverse-proxy
+      - /opt/docker-persist/portainer-ce:/data
+    ports:
+      - 9000:9000/tcp
     environment:
       - VIRTUAL_HOST=portainer.wainwright.lan,portainer
       - VIRTUAL_PORT=9000    
-
-networks:
-  reverse-proxy:
-    external:
-      name: reverse-proxy
-
