@@ -17,8 +17,6 @@ services:
       - "traefik.http.services.glances.loadbalancer.server.port=61208"
       - "traefik.http.routers.glances.service=glances"
     environment:
-      - VIRTUAL_HOST=piglances.wainwright.lan,piglances
-      - VIRTUAL_PORT=61208
       - GLANCES_OPT=-w
 
 networks:
