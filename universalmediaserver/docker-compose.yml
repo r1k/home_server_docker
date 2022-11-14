@@ -1,0 +1,26 @@
+version: "3.4"
+services:
+  universalmediaserver:
+    image:  universalmediaserver/ums
+    container_name: ums
+    environment:
+      - FOLDER=""
+      - FORCE_CHOWN="false" 
+      - NETWORK_INTERFACE="" 
+      - LOG_LEVEL="" 
+      - PORT=5001 
+      - SET_MEDIA_PERMISSIONS="false" 
+    volumes:
+      - /mnt/storage1/docker-persist/universalmediaserver/UMS.conf:/root/.config/UMS/UMS.conf
+      - /mnt/storage1/other:/media
+    networks:
+      macvlan_net:
+        ipv4_address: 192.168.221.17
+    ports:
+      - 5001:5001
+      - 9001:9001
+    restart: unless-stopped
+
+networks:
+  macvlan_net:
+    external: true

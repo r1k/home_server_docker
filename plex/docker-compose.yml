@@ -18,7 +18,7 @@ services:
       - PLEX_GID=`id -g`
     networks:
       macvlan_net:
-        ipv4_address: 192.168.221.15
+        ipv4_address: 192.168.221.16
 
 
 networks:

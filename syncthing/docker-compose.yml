@@ -13,11 +13,16 @@ services:
     environment:
       - VIRTUAL_HOST=syncthing.wainwright.lan,syncthing
       - VIRTUAL_PORT=8384
-      - PUID=`id -u`
-      - PGID=`id -g`
+      - PUID=1000
+      - PGID=1000
       - TZ=Europe/London 
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.syncthing.rule=Host(`syncthing.wainwright.lan`)"
+      - "traefik.http.routers.syncthing.entrypoints=web"
+      - "traefik.http.services.syncthing.loadbalancer.server.port=8384"
+      - "traefik.http.routers.syncthing.service=syncthing"
     ports:
-      - 8384:8384
       - 22000:22000
       - 21027:21027/udp
 
