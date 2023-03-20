@@ -1,0 +1,27 @@
+version: '3.1'
+
+services:
+  speedtest:
+    image: adolfintel/speedtest
+    restart: unless-stopped
+    container_name: speedtest
+    networks:
+      - reverse-proxy
+    environment:
+      - TITLE="Wainwright Speedtest"
+      - TELEMETRY="true"
+      - PASSWORD="ChangeMe"
+      - EMAIL="noone@home.com"
+      - DISABLE_IPINFO="true"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.speedtest.rule=Host(`speedtest.wainwright.lan`)"
+      - "traefik.http.routers.speedtest.entrypoints=web"
+      - "traefik.http.services.speedtest.loadbalancer.server.port=80"
+      - "traefik.http.routers.speedtest.service=speedtest"
+
+networks:
+  reverse-proxy:
+    external:
+      name: reverse-proxy
+
