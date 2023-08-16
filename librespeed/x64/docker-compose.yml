@@ -2,7 +2,7 @@ version: '3.1'
 
 services:
   speedtest:
-    image: adolfintel/speedtest
+    image: adolfintel/speedtest:latest
     restart: unless-stopped
     container_name: speedtest
     networks:
@@ -22,6 +22,5 @@ services:
 
 networks:
   reverse-proxy:
-    external:
-      name: reverse-proxy
+    external: true
 
