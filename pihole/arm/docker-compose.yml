@@ -18,7 +18,7 @@ services:
       - DNSMASQ_LISTENING=all
       - TZ=Europe/London
       - WEBPASSWORD=${WEBPASSWD}    
-      - PIHOLE_DNS_=127.0.0.1#8053
+      - PIHOLE_DNS_=127.0.0.1#8054;127.0.0.1#8053
       - PIHOLE_DOMAIN=wainwright.lan
       - IPv6=false
       - ServerIP=192.168.221.1
@@ -30,4 +30,12 @@ services:
     network_mode: host
     volumes:
       - /opt/docker-persist/stubby/:/etc/stubby/
+
+  dnscrypt-proxy:
+    container_name: dnscrypt-proxy
+    image: gists/dnscrypt-proxy
+    network_mode: host
+    volumes:
+        - /opt/docker-persist/dnscrypt-proxy/dnscrypt-proxy.toml:/etc/dnscrypt-proxy/dnscrypt-proxy.toml
+    restart: always
 
