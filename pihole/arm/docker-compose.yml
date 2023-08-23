@@ -24,12 +24,10 @@ services:
       - ServerIP=192.168.221.1
 
   stubby:
-    build:
-      context: ./DoHttps
-      dockerfile: Dockerfile
     container_name: stubby
+    image: registry.gitlab.com/luckyturtledev/docker-stubby:latest
     restart: unless-stopped
     network_mode: host
     volumes:
-      - /opt/docker-persist/stubby/:/config/
+      - /opt/docker-persist/stubby/:/etc/stubby/
 
