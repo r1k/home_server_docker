@@ -10,4 +10,4 @@ services:
     network_mode: host
     environment:
       MINIDLNA_MEDIA_DIR: V,/media/Video
-      MINIDLNA_FRIENDLY_NAME: minidlna
+      MINIDLNA_FRIENDLY_NAME: rknas
