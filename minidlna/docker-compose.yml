@@ -1,0 +1,13 @@
+version: '3.1'
+
+services:
+  dlna:
+    image: vladgh/minidlna
+    container_name: minidlna
+    restart: unless-stopped
+    volumes:
+      - /mnt/nfs/Media/Video:/media/Video
+    network_mode: host
+    environment:
+      MINIDLNA_MEDIA_DIR: V,/media/Video
+      MINIDLNA_FRIENDLY_NAME: rknas
