@@ -9,5 +9,5 @@ services:
       - /mnt/nfs/Media/Video:/media/Video
     network_mode: host
     environment:
-      MINIDLNA_MEDIA_DIR: /media
+      MINIDLNA_MEDIA_DIR: V,/media/Video
       MINIDLNA_FRIENDLY_NAME: minidlna
