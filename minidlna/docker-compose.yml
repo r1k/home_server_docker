@@ -11,3 +11,9 @@ services:
     environment:
       MINIDLNA_MEDIA_DIR: V,/media/Video
       MINIDLNA_FRIENDLY_NAME: rknas
+    healthcheck:
+      test: bash -c "[ -d /media/Video/Films ]"
+      interval: 60s
+      retries: 3
+      start_period: 10s
+      timeout: 3s
