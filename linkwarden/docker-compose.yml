@@ -1,0 +1,36 @@
+version: '3.5'
+
+services:
+
+  postgres:
+    image: postgres:16-alpine
+    env_file: .env
+    restart: unless-stopped
+    volumes:
+      - /mnt/nfs/docker-persist/linkwarden/postgres/data:/var/lib/postgresql/data
+    healthcheck:
+      test: bash -c "[ -d /var/lib/postgresql/data ]"
+      interval: 60s
+      retries: 3
+      start_period: 10s
+      timeout: 3s
+
+  linkwarden:
+    env_file: .env
+    environment:
+      - DATABASE_URL=postgresql://postgres:${POSTGRES_PASSWORD}@postgres:5432/postgres
+    restart: unless-stopped
+    # build: . # uncomment this line to build from source
+    image: ghcr.io/linkwarden/linkwarden:latest # comment this line to build from source
+    ports:
+      - 3000:3000
+    volumes:
+      - /mnt/nfs/docker-persist/linkwarden/linkwarden/data:/data/data
+    depends_on:
+      - postgres
+    healthcheck:
+      test: bash -c "[ -d /data/data ]"
+      interval: 60s
+      retries: 3
+      start_period: 10s
+      timeout: 3s
