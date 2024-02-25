@@ -10,11 +10,11 @@ services:
       - TZ=Etc/UTC
     restart: unless-stopped
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.snapdrop.rule=Host(`snapdrop.wainwright.lan`)"
-      - "traefik.http.routers.snapdrop.entrypoints=web"
-      - "traefik.http.services.snapdrop.loadbalancer.server.port=80"
-      - "traefik.http.routers.snapdrop.service=snapdrop"
+      - traefik.enable=true
+      - traefik.http.routers.snapdrop.rule=Host(`snapdrop.wainwright.lan`)
+      - traefik.http.routers.snapdrop.entrypoints=web
+      - traefik.http.services.snapdrop.loadbalancer.server.port=80
+      - traefik.http.routers.snapdrop.service=snapdrop
     networks:
       - reverse-proxy
 
