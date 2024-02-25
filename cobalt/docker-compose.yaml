@@ -1,0 +1,68 @@
+version: '3.5'
+
+services:
+  cobalt-api:
+    image: ghcr.io/wukko/cobalt:7
+    restart: unless-stopped
+    container_name: cobalt-api
+    init: true
+    # if container doesn't run detached on your machine, uncomment the next line:
+    # tty: true
+    networks:
+      - reverse-proxy
+    #ports:
+      #- 9000:9000/tcp
+      # if you're using a reverse proxy, uncomment the next line:
+      #- 127.0.0.1:9000:9000
+    environment:
+      # replace apiURL with your instance's target url in same format
+      - apiURL=http://cobalt-api.wainwright.lan/
+      # replace apiName with your instance's distinctive name
+      - apiName=eu-nl
+      # if you want to use cookies when fetching data from services, uncomment the next line
+      #- cookiePath=/cookies.json
+      # see cookies_example.json for example file.
+      # if you want to use cookies when fetching data from services, uncomment volumes and next line
+      #volumes:
+        #- ./cookies.json:/cookies.json
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.cobalt-api.rule=Host(`cobalt-api.wainwright.lan`)"
+      - "traefik.http.routers.cobalt-api.entrypoints=web"
+      - "traefik.http.services.cobalt-api.loadbalancer.server.port=9000"
+      - "traefik.http.routers.cobalt-api.service=cobalt-api"
+
+  cobalt-web:
+    image: ghcr.io/wukko/cobalt:7
+    restart: unless-stopped
+    container_name: cobalt-web
+
+    init: true
+
+    # if container doesn't run detached on your machine, uncomment the next line:
+    #tty: true
+    networks:
+      - reverse-proxy
+    #ports:
+      #- 80:9001/tcp
+      # if you're using a reverse proxy, uncomment the next line:
+      #- 127.0.0.1:9001:9001
+
+    environment:
+      # replace webURL with your instance's target url in same format
+      - webURL=https://cobalt.wainwright.lan/
+      # replace apiURL with preferred api instance url
+      - apiURL=https://cobalt-api.wainwright.lan/
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.cobalt.rule=Host(`cobalt.wainwright.lan`)"
+      - "traefik.http.routers.cobalt.entrypoints=web"
+      - "traefik.http.services.cobalt.loadbalancer.server.port=9001"
+      - "traefik.http.routers.cobalt.service=cobalt"
+    depends_on:
+      - cobalt-api
+
+networks:
+  reverse-proxy:
+    external:
+      name: reverse-proxy
