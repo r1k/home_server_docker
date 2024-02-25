@@ -1,8 +1,8 @@
-version: '3.5'
+version: '2.1'
 
 services:
   cobalt-api:
-    image: ghcr.io/wukko/cobalt:7.4.10
+    image: ghcr.io/wukko/cobalt:7.10.4
     restart: unless-stopped
     container_name: cobalt-api
     init: true
@@ -35,7 +35,7 @@ services:
       - traefik.http.routers.cobalt-api.service=cobalt-api
 
   cobalt-web:
-    image: ghcr.io/wukko/cobalt:7.4.10
+    image: ghcr.io/wukko/cobalt:7.10.4
     restart: unless-stopped
     container_name: cobalt-web
 
