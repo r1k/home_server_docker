@@ -3,7 +3,7 @@ version: '3.5'
 services:
 
   postgres:
-    image: postgres:16-alpine
+    image: postgres:16
     env_file: 
       - path: .env
         require: true
@@ -32,8 +32,8 @@ services:
       - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
       - NEXTAUTH_URL=http://localhost:3000/
     restart: unless-stopped
-    # build: . # uncomment this line to build from source
-    image: ghcr.io/linkwarden/linkwarden:latest # comment this line to build from source
+    # checkout the git repo and build it then tag it locally
+    image: linkwarden_local
     volumes:
       - /opt/docker-persist/linkwarden/linkwarden/data:/data/data
     depends_on:

@@ -1,0 +1,59 @@
+version: '3.5'
+
+services:
+
+  postgres:
+    image: postgres:16
+    env_file: 
+      - path: .env
+        require: true
+    environment:
+      - POSTGRES_DB: ${POASTGRES_DB}
+      - POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      - POSTGRES_USER: ${POSTGRES_USER}
+    restart: unless-stopped
+    networks:
+      - reverse-proxy
+    volumes:
+      - /opt/docker-persist/linkwarden/postgres/data:/var/lib/postgresql/data
+    healthcheck:
+      test: bash -c "[ -d /var/lib/postgresql/data ]"
+      interval: 60s
+      retries: 3
+      start_period: 10s
+      timeout: 3s
+
+  linkwarden:
+    env_file: 
+      - path: .env
+        require: true
+    environment:
+      - DATABASE_URL=postgresql://postgres:${POSTGRES_PASSWORD}@postgres:5432/postgres
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - NEXTAUTH_URL=http://localhost:3000/
+    restart: unless-stopped
+    # build: . # uncomment this line to build from source
+    image: ghcr.io/linkwarden/linkwarden:latest # comment this line to build from source
+    volumes:
+      - /opt/docker-persist/linkwarden/linkwarden/data:/data/data
+    depends_on:
+      - postgres
+    networks:
+      - reverse-proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.linkwarden.rule=Host(`linkwarden.wainwright.lan`)"
+      - "traefik.http.routers.linkwarden.rule=Host(`linkwarden`)"
+      - "traefik.http.routers.linkwarden.entrypoints=web"
+      - "traefik.http.services.linkwarden.loadbalancer.server.port=3000"
+      - "traefik.http.routers.linkwarden.service=linkwarden"
+    healthcheck:
+      test: bash -c "[ -d /data/data ]"
+      interval: 60s
+      retries: 3
+      start_period: 10s
+      timeout: 3s
+
+networks:
+  reverse-proxy:
+    external: true
