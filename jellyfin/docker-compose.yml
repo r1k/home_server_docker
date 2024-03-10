@@ -1,0 +1,27 @@
+version: "3"
+services:
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+    container_name: jellyfin
+    environment:
+      - PUID=501
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /mnt/nfs/jellyfin/config:/config
+      - /mnt/nfs/Media:/media
+    networks:
+      - reverse-proxy
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jellyfin.rule=Host(`jellyfin.wainwright.lan`)"
+      - "traefik.http.routers.jellyfin.entrypoints=web"
+      - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
+      - "traefik.http.routers.jellyfin.service=jellyfin"
+
+networks:
+  reverse-proxy:
+    external:
+      name: reverse-proxy
+
