@@ -58,6 +58,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.cobalt.rule=Host(`cobalt.wainwright.lan`)
+      - traefik.http.routers.cobalt.rule=Host(`cobalt`)
       - traefik.http.routers.cobalt.entrypoints=web
       - traefik.http.services.cobalt.loadbalancer.server.port=9001
       - traefik.http.routers.cobalt.service=cobalt
