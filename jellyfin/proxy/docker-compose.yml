@@ -19,6 +19,12 @@ services:
       - "traefik.http.routers.jellyfin.entrypoints=web"
       - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
       - "traefik.http.routers.jellyfin.service=jellyfin"
+    healthcheck:
+      test: bash -c "[ -d /media/Video/Films ]"
+      interval: 60s
+      retries: 3
+      start_period: 10s
+      timeout: 3s
 
 networks:
   reverse-proxy:

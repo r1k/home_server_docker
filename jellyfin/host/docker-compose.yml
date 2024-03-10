@@ -12,4 +12,10 @@ services:
       - /mnt/nfs/Media:/media
     network_mode: host
     restart: unless-stopped
+    healthcheck:
+      test: bash -c "[ -d /media/Video/Films ]"
+      interval: 60s
+      retries: 3
+      start_period: 10s
+      timeout: 3s
 
