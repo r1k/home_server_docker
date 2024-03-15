@@ -56,8 +56,8 @@ networks:
   cloudflared_net:
     driver: bridge
     ipam:
-     config:
-       - subnet: 172.31.0.64/29        
+      config:
+        - subnet: 172.31.0.64/29        
   reverse-proxy:
     external:
       name: reverse-proxy

@@ -1,0 +1,81 @@
+version: '3.1'
+
+services:
+  pihole:
+    image: pihole/pihole:latest
+    container_name: pihole
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - /opt/docker-persist/pi-hole/:/etc/pihole/
+      - /opt/docker-persist/pi-hole/dnsmasq.d/:/etc/dnsmasq.d/
+    ports:
+      - 53:53/tcp
+      - 53:53/udp 
+    environment:
+      - VIRTUAL_HOST=pihole.wainwright.lan,pihole
+      - DNSMASQ_LISTENING=all
+      - TZ=Europe/London
+      - WEBPASSWORD=${WEBPASSWD}    
+      - PIHOLE_DNS_=172.31.1.4#8054;172.31.1.3#8053
+      - PIHOLE_DOMAIN=wainwright.lan
+      - IPv6=false
+      - ServerIP=192.168.221.1
+    networks:
+      dhcp_relay:
+        ipv4_address: '172.31.0.2'
+      cloudflared_net:
+        ipv4_address: '172.31.1.2'
+      reverse_proxy: {}
+    depends_on:
+      - dhcphelper
+      - stubby
+      - dnscrypt-proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.pihole.rule=Host(`pihole.wainwright.lan`)"
+      - "traefik.http.routers.pihole.entrypoints=web"
+      - "traefik.http.services.pihole.loadbalancer.server.port=80"
+      - "traefik.http.routers.pihole.service=pihole"
+
+  stubby:
+    container_name: stubby
+    image: registry.gitlab.com/luckyturtledev/docker-stubby:latest
+    restart: unless-stopped
+    volumes:
+      - /opt/docker-persist/stubby/:/etc/stubby/
+    networks:
+      cloudflared_net:
+        ipv4_address: '172.31.1.3'
+
+  dnscrypt-proxy:
+    container_name: dnscrypt-proxy
+    image: gists/dnscrypt-proxy
+    restart: unless-stopped
+    volumes:
+        - /opt/docker-persist/dnscrypt-proxy/dnscrypt-proxy.toml:/etc/dnscrypt-proxy/dnscrypt-proxy.toml
+    networks:
+      cloudflared_net:
+        ipv4_address: '172.31.1.4'
+
+  dhcphelper:
+    build: ./dhcp-helper
+    restart: unless-stopped
+    command: -s 172.31.0.2
+    cap_add:
+      - NET_ADMIN
+    network_mode: "host"
+
+networks:
+  dhcp_relay:
+    ipam:
+      config:
+        - subnet: 172.31.0.0/24
+  cloudflared_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.31.1.0/24        
+  reverse-proxy:
+    external: true
