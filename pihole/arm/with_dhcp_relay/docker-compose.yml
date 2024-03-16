@@ -25,9 +25,9 @@ services:
     networks:
       dhcp_relay:
         ipv4_address: '172.31.0.2'
+      reverse-proxy: {}
       cloudflared_net:
         ipv4_address: '172.31.1.2'
-      reverse_proxy: {}
     depends_on:
       - dhcphelper
       - stubby
@@ -38,6 +38,7 @@ services:
       - "traefik.http.routers.pihole.entrypoints=web"
       - "traefik.http.services.pihole.loadbalancer.server.port=80"
       - "traefik.http.routers.pihole.service=pihole"
+      - "traefik.docker.network=reverse-proxy"
 
   stubby:
     container_name: stubby
