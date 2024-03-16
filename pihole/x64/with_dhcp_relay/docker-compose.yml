@@ -20,7 +20,8 @@ services:
       - WEBPASSWORD=${PASSWORD}    
       - DNS1=172.31.0.67#5053
       - DNS2=
-      - IPv6=false
+      - IPv6=falsea
+      - ServerIP=192.168.221.1
     networks:
       dhcp_relay:
         ipv4_address: '172.31.0.2'
