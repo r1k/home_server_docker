@@ -28,6 +28,5 @@ services:
 
 networks:
   reverse-proxy:
-    external:
-      name: reverse-proxy
+    external: true
 
