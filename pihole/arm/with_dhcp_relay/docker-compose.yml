@@ -21,7 +21,6 @@ services:
       - PIHOLE_DNS_=172.31.1.4#8054;172.31.1.3#8053
       - PIHOLE_DOMAIN=wainwright.lan
       - IPv6=false
-      - ServerIP=192.168.221.1
     networks:
       dhcp_relay:
         ipv4_address: '172.31.0.2'
