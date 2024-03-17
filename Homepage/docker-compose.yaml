@@ -10,11 +10,11 @@ services:
     networks:
       - reverse-proxy
     labels:
-      - traefik.enable=true
-      - traefik.http.routers.homepage.rule=Host(`home.wainwright.lan`)
-      - traefik.http.routers.homepage.entrypoints=web
-      - traefik.http.services.homepage.loadbalancer.server.port=3000
-      - traefik.http.routers.homepage.service=homepage
+      - "traefik.enable=true"
+      - "traefik.http.routers.homepage.rule=Host(`home.wainwright.lan`)"
+      - "traefik.http.routers.homepage.entrypoints=web"
+      - "traefik.http.services.homepage.loadbalancer.server.port=3000"
+      - "traefik.http.routers.homepage.service=homepage"
     healthcheck:
       test: curl 127.0.0.1:3000
       interval: 60s
