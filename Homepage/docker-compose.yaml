@@ -5,7 +5,9 @@ services:
     container_name: homepage
     volumes:
       - /opt/docker-persist/homepage/config:/app/config # Make sure your local config directory exists
-      - /var/run/docker.sock:/var/run/docker.sock:ro # (optional) For docker integrations
+      - /var/run/docker.sock:/var/run/docker.sock:ro # (optional) For docker integrationsvolumes:
+      - /opt/docker-persist/homepage/images:/app/public/images
+      - /opt/docker-persist/homepage/icons:/app/public/icons
     restart: unless-stopped
     networks:
       - reverse-proxy
