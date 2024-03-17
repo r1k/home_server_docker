@@ -22,7 +22,7 @@ services:
     image: filebrowser/filebrowser:latest
     container_name: config-homepage
     volumes:
-      - /opt/docker-persist/homepage/config:/srv
+      - /opt/docker-persist/homepage:/srv
       - /opt/docker-persist/homepage/filebrowser.db:/database.db
       - /opt/docker-persist/homepage/.filebrowser.json:/.filebrowser.json
     restart: unless-stopped
