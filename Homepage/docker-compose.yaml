@@ -7,16 +7,16 @@ services:
       - /opt/docker-persist/homepage/config:/app/config # Make sure your local config directory exists
       - /var/run/docker.sock:/var/run/docker.sock:ro # (optional) For docker integrations
     restart: unless-stopped
+    networks:
+      - reverse-proxy
     labels:
       - traefik.enable=true
       - traefik.http.routers.homepage.rule=Host(`home.wainwright.lan`)
       - traefik.http.routers.homepage.entrypoints=web
       - traefik.http.services.homepage.loadbalancer.server.port=3000
       - traefik.http.routers.homepage.service=homepage
-    networks:
-      - reverse-proxy
     healthcheck:
-      test: curl 127.0.0.1:80
+      test: curl 127.0.0.1:3000
       interval: 60s
       retries: 3
       start_period: 10s
