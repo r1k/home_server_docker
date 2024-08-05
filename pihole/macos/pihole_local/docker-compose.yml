@@ -1,0 +1,40 @@
+version: '3.1'
+
+services:
+  pihole:
+    image: pihole/pihole:latest
+    container_name: pihole
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+      - NET_BIND_SERVICE
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "80:80/tcp"
+    volumes:
+      - /Users/rk/docker-persist/pi-hole/:/etc/pihole/
+      - /Users/rk/docker-persist/pi-hole/dnsmasq.d/:/etc/dnsmasq.d/
+    environment:
+      - VIRTUAL_HOST=pihole
+      - DNSMASQ_LISTENING=all
+      - TZ=Europe/London
+      - WEBPASSWORD=${WEBPASSWD}    
+      - PIHOLE_DNS_=stubby#8053;dnscrypt-proxy#8054
+      - IPv6=false
+
+  stubby:
+    container_name: stubby
+    image: registry.gitlab.com/luckyturtledev/docker-stubby:latest
+    restart: unless-stopped
+    volumes:
+      - /Users/rk/docker-persist/stubby/:/etc/stubby/
+
+  dnscrypt-proxy:
+    container_name: dnscrypt-proxy
+    image: gists/dnscrypt-proxy
+    volumes:
+        - /Users/rk/docker-persist/dnscrypt-proxy/dnscrypt-proxy.toml:/etc/dnscrypt-proxy/dnscrypt-proxy.toml
+    restart: always
+
