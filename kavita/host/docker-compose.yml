@@ -1,6 +1,6 @@
 version: "3"
 services:
-  jellyfin:
+  kavita:
     image: jvmilazz0/kavita:latest
     container_name: kavita
     environment:
