@@ -1,0 +1,32 @@
+version: "3"
+services:
+  jellyfin:
+    image: jvmilazz0/kavita:latest
+    container_name: kavita
+    environment:
+      - PUID=501
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /mnt/nfs/kavita/config:/kavita/config
+      - /mnt/nfs/Media/Books:/books
+    networks:
+      - reverse-proxy
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.kavita.rule=Host(`kavita.wainwright.lan`)"
+      - "traefik.http.routers.kavita.entrypoints=web"
+      - "traefik.http.services.kavita.loadbalancer.server.port=5000"
+      - "traefik.http.routers.kavita.service=kavita"
+    healthcheck:
+      test: bash -c "[ -d /books/Fiction ]"
+      interval: 60s
+      retries: 3
+      start_period: 10s
+      timeout: 3s
+
+networks:
+  reverse-proxy:
+    external: true
+

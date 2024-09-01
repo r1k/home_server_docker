@@ -1,0 +1,21 @@
+version: "3"
+services:
+  jellyfin:
+    image: jvmilazz0/kavita:latest
+    container_name: kavita
+    environment:
+      - PUID=501
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /mnt/nfs/kavita/config:/kavita/config
+      - /mnt/nfs/Media/Books:/books
+    network_mode: host
+    restart: unless-stopped
+    healthcheck:
+      test: bash -c "[ -d /books/Fiction ]"
+      interval: 60s
+      retries: 3
+      start_period: 10s
+      timeout: 3s
+
