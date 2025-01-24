@@ -1,0 +1,11 @@
+name: python310  # Name of the environment
+channels:
+  - conda-forge     # List of channels to pull packages from
+dependencies:
+  - python=3.10      # Specify package and version
+  - numpy           # Example of a library
+  - pandas
+  - matplotlib
+  - pip             # Include pip if pip-only dependencies are needed
+  - ipykernel
+  - jupyterlab

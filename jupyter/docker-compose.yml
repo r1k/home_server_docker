@@ -1,0 +1,36 @@
+version: '3.1'
+
+services:
+  jupyter:
+    build: ./jupyter_docker
+    user: root
+    restart: unless-stopped
+    volumes:
+      - /mnt/storage1/docker-persist/jupyter/work:/home/jovyan/work
+      - /mnt/storage1/docker-persist/jupyter/config:/home/jovyan/.jupyter/config
+    networks:
+      - reverse-proxy
+    environment:
+      - VIRTUAL_HOST=jupyter.wainwright.lan,jupyter
+      - VIRTUAL_PORT=9888
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - GRANT_SUDO=yes
+      - NB_UID=${UID}
+      - NB_GID=${GID}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jupyter.rule=Host(`jupyter.wainwright.lan`)"
+      - "traefik.http.routers.jupyter.rule=Host(`jupyter`)"
+      - "traefik.http.routers.jupyter.entrypoints=web"
+      - "traefik.http.services.jupyter.loadbalancer.server.port=9888"
+      - "traefik.http.routers.jupyter.service=jupyter"
+    ports:
+      - 9888:8888
+
+networks:
+  reverse-proxy:
+    external:
+      name: reverse-proxy
+
