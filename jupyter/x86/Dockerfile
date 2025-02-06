@@ -14,8 +14,8 @@ ARG py_ver=3.10
 # Alternatively, you can comment out the lines above and uncomment those below
 # if you'd prefer to use a YAML file present in the docker build context
 
-COPY --chown=${NB_UID}:${NB_GID} environment.yml /tmp/
-RUN mamba env create -p "${CONDA_DIR}/envs/${env_name}" -f /tmp/environment.yml && \
+COPY --chown=${NB_UID}:${NB_GID} environment.yaml /tmp/
+RUN mamba env create -p "${CONDA_DIR}/envs/${env_name}" -f /tmp/environment.yaml && \
     mamba clean --all -f -y
 
 # Create Python kernel and link it to jupyter

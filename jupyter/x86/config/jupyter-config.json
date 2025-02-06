@@ -1,0 +1,8 @@
+{
+  "NotebookApp": {
+    "password": "sha1:56a8cb9f1a74:a2bc0ea06ff5f7cbc09e7be74227a58cafc6acbc",
+    "ip": "*",
+    "port": 8888,
+    "notebook_dir": "/home/jovyan/work"
+  }
+}

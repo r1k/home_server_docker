@@ -9,3 +9,4 @@ dependencies:
   - pip             # Include pip if pip-only dependencies are needed
   - ipykernel
   - jupyterlab
+  - xeus-cling
