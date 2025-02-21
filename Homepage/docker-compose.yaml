@@ -18,22 +18,22 @@ services:
       - "traefik.http.services.homepage.loadbalancer.server.port=3000"
       - "traefik.http.routers.homepage.service=homepage"
 
-  config-homepage:
-    image: filebrowser/filebrowser:latest
-    container_name: config-homepage
-    volumes:
-      - /opt/docker-persist/homepage:/srv
-      - /opt/docker-persist/homepage/filebrowser.db:/database.db
-      - /opt/docker-persist/homepage/.filebrowser.json:/.filebrowser.json
-    restart: unless-stopped
-    networks:
-      - reverse-proxy
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.config-homepage.rule=Host(`config-home.wainwright.lan`)"
-      - "traefik.http.routers.config-homepage.entrypoints=web"
-      - "traefik.http.services.config-homepage.loadbalancer.server.port=80"
-      - "traefik.http.routers.config-homepage.service=config-homepage"
+  #config-homepage:
+    #image: filebrowser/filebrowser:latest
+    #container_name: config-homepage
+    #volumes:
+      #- /opt/docker-persist/homepage:/srv
+      #- /opt/docker-persist/homepage/filebrowser.db:/database.db
+      #- /opt/docker-persist/homepage/.filebrowser.json:/.filebrowser.json
+    #restart: unless-stopped
+    #networks:
+      #- reverse-proxy
+    #labels:
+      #- "traefik.enable=true"
+      #- "traefik.http.routers.config-homepage.rule=Host(`config-home.wainwright.lan`)"
+      #- "traefik.http.routers.config-homepage.entrypoints=web"
+      #- "traefik.http.services.config-homepage.loadbalancer.server.port=80"
+      #- "traefik.http.routers.config-homepage.service=config-homepage"
 
 networks:
   reverse-proxy:
