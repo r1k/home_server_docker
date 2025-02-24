@@ -1,4 +1,3 @@
-version: "3.0"
 services:
   notebook:
     build:
@@ -9,7 +8,7 @@ services:
     ports:
       - "8888:8888"
     volumes:
-      - /mnt/storage1/docker-persist/jupyter/work:/home/jovyan/work
+      - ${NOTEBOOK_FOLDER}:/home/jovyan/notebooks
       - ./config/jupyter-config.json:/home/jovyan/.jupyter/jupyter_notebook_config.json
       - ./config:/home/jovyan/.jupyter/config
     environment:
