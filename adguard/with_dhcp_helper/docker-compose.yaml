@@ -1,0 +1,55 @@
+services:
+  adguardhome:
+    image: 'adguard/adguardhome:latest'
+    container_name: 'adguard'
+    hostname: 'adguard'
+    restart: 'unless-stopped'
+    networks:
+      dhcp_relay:
+        ipv4_address: '172.41.0.2'
+      reverse-proxy: {}
+    volumes:
+      - '/etc/localtime:/etc/localtime:ro'
+      - '/opt/docker-persist/adguard/work:/opt/adguardhome/work'
+      - '/opt/docker-persist/adguard/config:/opt/adguardhome/conf'
+    ports:
+      # Plain DNS
+      - '53:53/tcp'
+      - '53:53/udp'
+      # AdGuard Home Admin Panel as well as DNS-over-HTTPS
+      - '80:80/tcp'
+      - '443:443/tcp'
+      - '443:443/udp'
+      - '3000:3000/tcp'
+      # DNS-over-TLS
+      - '853:853/tcp'
+      # DNS-over-QUIC
+      - '784:784/udp'
+      - '853:853/udp'
+      - '8853:8853/udp'
+      # DNSCrypt
+      - '5443:5443/tcp'
+      - '5443:5443/udp'
+    healthcheck:
+      test: curl 127.0.0.1:80
+      interval: 60s
+      retries: 3
+      start_period: 10s
+      timeout: 3s
+
+  adguard_dhcphelper:
+    build: ./dhcp-helper
+    restart: unless-stopped
+    command: -s 172.41.0.2
+    cap_add:
+      - NET_ADMIN
+    network_mode: "host"
+
+networks:
+  dhcp_relay:
+    ipam:
+      config:
+        - subnet: 172.41.0.0/24
+  reverse-proxy:
+    external: true
+

@@ -1,0 +1,11 @@
+services:
+  adguardhome:
+    image: 'adguard/adguardhome:latest'
+    container_name: 'adguard'
+    hostname: 'adguard'
+    restart: 'unless-stopped'
+    network_mode: 'host'
+    volumes:
+      - '/etc/localtime:/etc/localtime:ro'
+      - '/opt/docker-persist/adguard/work:/opt/adguardhome/work'
+      - '/opt/docker-persist/adguard/config:/opt/adguardhome/conf'
