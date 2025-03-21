@@ -2,7 +2,7 @@ version: '3.1'
 
 services:
   homebridge:
-    image: oznu/homebridge:ubuntu
+    image: homebridge/homebridge:latest
     restart: unless-stopped
     container_name: homebridge
     volumes:

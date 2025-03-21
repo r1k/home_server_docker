@@ -1,0 +1,31 @@
+services:
+  hbbs:
+    container_name: rustdesk_hbbs
+    image: rustdesk/rustdesk-server:latest
+    command: hbbs
+    volumes:
+      - '/opt/docker-persist/rustdesk:/root'
+    ports:
+      # 21114 TCP web console, only available in Pro version
+      # 21115 TCP for NAT type test
+      # 21116 UDP/TCP TCP Hole Punching / Heartbeat / ID-Server
+      # 21118 TCP Relay
+      - "0.0.0.0:21114-21116:21114-21116/tcp"
+      - "0.0.0.0:21118:21118/tcp"
+      - "0.0.0.0:21116:21116/udp"
+    depends_on:
+      - hbbr
+    restart: unless-stopped
+
+  hbbr:
+    container_name: rustdesk_hbbr
+    image: rustdesk/rustdesk-server:latest
+    command: hbbr
+    volumes:
+      - '/opt/docker-persist/rustdesk:/root'
+    ports:
+      # 21117 TCP Relay
+      # 21119 TCP Relay
+      - "0.0.0.0:21117:21117/tcp"
+      - "0.0.0.0:21119:21119/tcp"
+    restart: unless-stopped
