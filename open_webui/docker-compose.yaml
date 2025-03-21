@@ -1,0 +1,14 @@
+services:
+  open_webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open_webui
+    restart: unless-stopped
+    ports:
+      - "8081:8080"
+    volumes:
+      - /mnt/storage1/docker-persist/open_webui/:/app/backend/data
+    environment:
+      - VIRTUAL_HOST=open_webui.internal,open_webui.local,open_webui
+      - VIRTUAL_PORT=8081
+      - NB_UID=${UID}
+      - NB_GID=${GID}
