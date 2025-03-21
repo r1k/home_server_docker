@@ -4,7 +4,12 @@ if [[ ! -d "litellm" ]]; then
     git clone https://github.com/BerriAI/litellm.git
 fi
 
+source .env
+
 rm litellm/.env || true
+
+echo "DOCKER_PERSIST=$DOCKER_PERSIST" >> litellm/.env
+
 # create env file
 RANDOM_KEY=$(head /dev/urandom | tr -cd 'a-zA-Z0-9' | head -c 16)
 echo "LITELLM_MASTER_KEY=sk-$RANDOM_KEY" >> litellm/.env
