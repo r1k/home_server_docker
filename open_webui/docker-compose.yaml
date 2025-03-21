@@ -10,3 +10,6 @@ services:
     environment:
       - VIRTUAL_HOST=open_webui.internal,open_webui.local,open_webui
       - VIRTUAL_PORT=8081
+      - ENABLE_OLLAMA_API=False
+      - ENABLE_OPENAI_API=True
+      - OPENAI_API_BASE_URLS=${OPENAI_API_BASE_URLS}
