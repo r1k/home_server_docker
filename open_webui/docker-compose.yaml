@@ -10,5 +10,3 @@ services:
     environment:
       - VIRTUAL_HOST=open_webui.internal,open_webui.local,open_webui
       - VIRTUAL_PORT=8081
-      - NB_UID=${UID}
-      - NB_GID=${GID}
