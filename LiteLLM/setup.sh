@@ -1,10 +1,13 @@
 #!/bin/bash
 
+SCRIPT_PATH=$(readlink -f "${BASH_SOURCE}")
+SCRIPT_DIR=$(dirname "${SCRIPT_PATH}")
+
 if [[ ! -d "litellm" ]]; then
     git clone https://github.com/BerriAI/litellm.git
 fi
 
-source .env
+source "${SCRIPT_DIR}/.env"
 
 rm litellm/.env || true
 
