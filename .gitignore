@@ -1,4 +1,5 @@
 **/.env
 
 # LiteLLM checkout
-LiteLLM/LiteLLM/**/*
+LiteLLM/litellm
+LiteLLM/litellm/**/*
