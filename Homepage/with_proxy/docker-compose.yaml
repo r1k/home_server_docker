@@ -1,0 +1,39 @@
+services:
+  homepage:
+    image: ghcr.io/benphelps/homepage:latest
+    container_name: homepage
+    volumes:
+      - /opt/docker-persist/homepage/config:/app/config # Make sure your local config directory exists
+      - /var/run/docker.sock:/var/run/docker.sock:ro # (optional) For docker integrationsvolumes:
+      - /opt/docker-persist/homepage/images:/app/public/images
+      - /opt/docker-persist/homepage/icons:/app/public/icons
+    restart: unless-stopped
+    networks:
+      - reverse-proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.homepage.rule=Host(`home.wainwright.lan`)"
+      - "traefik.http.routers.homepage.entrypoints=web"
+      - "traefik.http.services.homepage.loadbalancer.server.port=3000"
+      - "traefik.http.routers.homepage.service=homepage"
+
+  #config-homepage:
+    #image: filebrowser/filebrowser:latest
+    #container_name: config-homepage
+    #volumes:
+      #- /opt/docker-persist/homepage:/srv
+      #- /opt/docker-persist/homepage/filebrowser.db:/database.db
+      #- /opt/docker-persist/homepage/.filebrowser.json:/.filebrowser.json
+    #restart: unless-stopped
+    #networks:
+      #- reverse-proxy
+    #labels:
+      #- "traefik.enable=true"
+      #- "traefik.http.routers.config-homepage.rule=Host(`config-home.wainwright.lan`)"
+      #- "traefik.http.routers.config-homepage.entrypoints=web"
+      #- "traefik.http.services.config-homepage.loadbalancer.server.port=80"
+      #- "traefik.http.routers.config-homepage.service=config-homepage"
+
+networks:
+  reverse-proxy:
+    external: true
