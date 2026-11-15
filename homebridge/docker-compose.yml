@@ -7,7 +7,7 @@ services:
       - /opt/docker-persist/homebridge:/homebridge
     network_mode: host
     environment:
-      - VIRTUAL_HOST=homebridge.wainwright.lan,homebridge
+      - VIRTUAL_HOST=homebridge.home.arpa,homebridge
       - VIRTUAL_PORT=8581
       - PUID=`id -u`
       - PGID=`id -g`
