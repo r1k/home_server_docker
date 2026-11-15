@@ -1,21 +1,18 @@
-version: "3"
 services:
   jellyfin:
-    image: lscr.io/linuxserver/jellyfin:latest
+    image: jellyfin/jellyfin:latest
     container_name: jellyfin
-    environment:
-      - PUID=501
-      - PGID=1000
-      - TZ=Europe/London
+    user: 501:100
     volumes:
-      - /mnt/nfs/jellyfin/config:/config
-      - /mnt/nfs/Media:/media
+      - jellyfin-config:/config
+      - jellyfin-cache:/cache
+      - type: bind
+        source: /mnt/nfs/Media
+        target: /media
+        read_only: true
     network_mode: host
     restart: unless-stopped
-    healthcheck:
-      test: bash -c "[ -d /media/Video/Films ]"
-      interval: 60s
-      retries: 3
-      start_period: 10s
-      timeout: 3s
 
+volumes:
+  jellyfin-config:
+  jellyfin-cache: 
