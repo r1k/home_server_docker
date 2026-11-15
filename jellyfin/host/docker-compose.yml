@@ -15,4 +15,6 @@ services:
 
 volumes:
   jellyfin-config:
+    external: true
+    name: host_jellyfin-config
   jellyfin-cache: 
