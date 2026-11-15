@@ -7,9 +7,11 @@ services:
     restart: unless-stopped
     volumes:
       - /mnt/nfs/Media/Video:/media/Video
+      - /mnt/nfs/Media/Music:/media/Music
     network_mode: host
     environment:
-      MINIDLNA_MEDIA_DIR: V,/media/Video
+      MINIDLNA_MEDIA_DIR_1: V,/media/Video
+      MINIDLNA_MEDIA_DIR_2: A,/media/Music
       MINIDLNA_FRIENDLY_NAME: rknas
     healthcheck:
       test: bash -c "[ -d /media/Video/Films ]"
